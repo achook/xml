@@ -108,6 +108,32 @@ public class JPKFile {
         }
     }
 
+    static public class InvoiceControl {
+        @XmlElement(name = "tns:LiczbaFakur")
+        int invoiceCount;
+
+        @XmlElement(name = "tns:WartoscFaktur")
+        BigDecimal invoicesValue;
+
+        InvoiceControl() {
+            invoiceCount = 0;
+            invoicesValue = BigDecimal.ZERO;
+        }
+    }
+
+    static public class ElementControl {
+        @XmlElement(name = "tns:LiczbaWierszyFaktur")
+        int invoiceRowCount;
+
+        @XmlElement(name = "tns:WartoscWierszyFaktur")
+        BigDecimal invoicesValue;
+
+        ElementControl() {
+            invoiceRowCount = 0;
+            invoicesValue = BigDecimal.ZERO;
+        }
+    }
+
     @XmlElement(name = "tns:Naglowek")
     public Header header;
 
@@ -117,22 +143,35 @@ public class JPKFile {
     @XmlElement(name = "tns:Faktura")
     public ArrayList<Invoice> invoices;
 
+    @XmlElement(name = "tns:FakturaCtrl")
+    public InvoiceControl invoiceControl;
+
     @XmlElement(name = "tns:FakturaWiersz")
     public ArrayList<Item> items;
+
+    @XmlElement(name = "tns:FakturaWierszCtrl")
+    public ElementControl elementControl;
 
     public JPKFile() {
         this.header = new Header();
         this.subject = new Subject();
+
         this.invoices = new ArrayList<>();
+        this.items = new ArrayList<>();
 
         var testInvoice = new Invoice("Test Company", "Test Address", "1234567890",
                 "2021-05-20", "2021-05-20", "1",
                 new BigDecimal("100.00"), new BigDecimal("120.00"));
 
-        testInvoice.addItem(new Item("Test Item", new BigDecimal("1"), new BigDecimal("100.00"), 23,
-                new BigDecimal("23.00"), new BigDecimal("123.00"), new BigDecimal("100.00")));
+        var testItem = new Item("Test Item", new BigDecimal("1"), new BigDecimal("100.00"), 23,
+                new BigDecimal("23.00"), new BigDecimal("123.00"), new BigDecimal("100.00"));
 
+        testInvoice.addItem(testItem);
+        this.items.add(testItem);
         this.invoices.add(testInvoice);
+
+        this.invoiceControl = new InvoiceControl();
+        this.elementControl = new ElementControl();
     }
 
 
