@@ -119,6 +119,14 @@ public class JPKFile {
             invoiceCount = 0;
             invoicesValue = BigDecimal.ZERO;
         }
+
+        InvoiceControl(ArrayList<Invoice> invoices) {
+            invoiceCount = invoices.size();
+            invoicesValue = BigDecimal.ZERO;
+            for (Invoice invoice : invoices) {
+                invoicesValue = invoicesValue.add(invoice.totalGrossPrice);
+            }
+        }
     }
 
     static public class ElementControl {
@@ -131,6 +139,14 @@ public class JPKFile {
         ElementControl() {
             invoiceRowCount = 0;
             invoicesValue = BigDecimal.ZERO;
+        }
+
+        ElementControl(ArrayList<Item> items) {
+            invoiceRowCount = items.size();
+            invoicesValue = BigDecimal.ZERO;
+            for (Item item : items) {
+                invoicesValue = invoicesValue.add(item.totalGrossPrice);
+            }
         }
     }
 
@@ -159,19 +175,19 @@ public class JPKFile {
         this.invoices = new ArrayList<>();
         this.items = new ArrayList<>();
 
-        var testInvoice = new Invoice("Test Company", "Test Address", "1234567890",
-                "2021-05-20", "2021-05-20", "1",
-                new BigDecimal("100.00"), new BigDecimal("120.00"));
+        this.invoiceControl = new InvoiceControl(this.invoices);
+        this.elementControl = new ElementControl(this.items);
+    }
 
-        var testItem = new Item("Test Item", new BigDecimal("1"), new BigDecimal("100.00"), 23,
-                new BigDecimal("23.00"), new BigDecimal("123.00"), new BigDecimal("100.00"));
+    public void addInvoices(ArrayList<Invoice> invoices) {
+        this.invoices.addAll(invoices);
 
-        testInvoice.addItem(testItem);
-        this.items.add(testItem);
-        this.invoices.add(testInvoice);
+        for (Invoice invoice : invoices) {
+            this.items.addAll(invoice.items);
+        }
 
-        this.invoiceControl = new InvoiceControl();
-        this.elementControl = new ElementControl();
+        this.invoiceControl = new InvoiceControl(this.invoices);
+        this.elementControl = new ElementControl(this.items);
     }
 
 

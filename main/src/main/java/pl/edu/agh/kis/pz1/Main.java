@@ -8,13 +8,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, JAXBException {
+    public static void main(String[] args) throws JAXBException, IOException {
+        var inputFileName = "input.csv";
+
+        var csvReader = new CSVReader(inputFileName);
+        csvReader.read();
+        var invoices = csvReader.getInvoices();
+
         JPKFile jpkFile = new JPKFile();
+        jpkFile.addInvoices(invoices);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JPKFile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(jpkFile, System.out);
-
     }
 }
