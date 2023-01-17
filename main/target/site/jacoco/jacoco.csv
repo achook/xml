@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+main,pl.edu.agh.kis.pz1,JPKFile.InvoiceControl,9,28,0,2,4,7,1,2,1,1
+main,pl.edu.agh.kis.pz1,CSVReader,183,28,8,0,41,6,7,4,3,4
+main,pl.edu.agh.kis.pz1,JPKFile.ElementControl,21,16,1,1,6,5,2,1,1,1
+main,pl.edu.agh.kis.pz1,JPKFile,0,74,0,2,0,15,0,3,0,2
+main,pl.edu.agh.kis.pz1,JPKFile.Subject,0,13,0,0,0,4,0,1,0,1
+main,pl.edu.agh.kis.pz1,JPKFile.Subject.SubjectIdentity,0,9,0,0,0,4,0,1,0,1
+main,pl.edu.agh.kis.pz1,XLSXReader,262,0,8,0,58,0,6,0,2,0
+main,pl.edu.agh.kis.pz1,XMLWriter,35,0,0,0,9,0,2,0,2,0
+main,pl.edu.agh.kis.pz1,JPKFile.Header,0,24,0,0,0,9,0,1,0,1
+main,pl.edu.agh.kis.pz1,Main,33,0,0,0,11,0,2,0,2,0
+main,pl.edu.agh.kis.pz1,Item,0,41,0,0,0,11,0,1,0,1
+main,pl.edu.agh.kis.pz1,Invoice,0,87,0,0,0,32,0,3,0,3
+main,pl.edu.agh.kis.pz1,JPKFile.Subject.SubjectAddress,0,30,0,0,0,11,0,1,0,1

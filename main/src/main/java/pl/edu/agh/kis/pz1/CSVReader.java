@@ -20,56 +20,58 @@ public class CSVReader {
         invoices = new ArrayList<>();
     }
 
+    static String changeCommaToDot(String s) {
+        return s.replace(",", ".");
+    }
+
+    static String formatPrice(String s) {
+        return s.replace(" ", "")
+                .replace("zł", "")
+                .replace(",", ".");
+    }
+
+    static BigDecimal parseNumber(String s) {
+        return new BigDecimal(changeCommaToDot(s));
+    }
+
+    static BigDecimal parsePrice(String s) {
+        return new BigDecimal(formatPrice(s));
+    }
+
     public void read() throws IOException {//wczytanie pliku CSV
-        Iterable<CSVRecord> records = CSVFormat.EXCEL.withDelimiter('\t').parse(fileReader);
-        records.iterator().next();//pominięcie pierwszej linii
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder()
+                .setIgnoreEmptyLines(false).setAllowMissingColumnNames(true).setDelimiter('\t').build()
+                .parse(fileReader);
+
+        records.iterator().next(); //pominięcie pierwszej linii
 
         ArrayList<String> parsedInvoices = new ArrayList<>();
 
-        for (CSVRecord record : records) {
-            String product = record.get(6);
-            BigDecimal amount = new BigDecimal(record.get(7)
-                    .replace(",", "."));
-            BigDecimal price = new BigDecimal(record.get(8)
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
+        for (CSVRecord r : records) {
+            String product = r.get(6);
+            BigDecimal amount = parseNumber(r.get(7));
+            BigDecimal price = parsePrice(r.get(8));
 
-            int taxRate = Integer.parseInt(record.get(9));
-            BigDecimal taxAmount = new BigDecimal(record.get(10)
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
+            int taxRate = Integer.parseInt(r.get(9));
+            BigDecimal taxAmount = parsePrice(r.get(10));
 
-            BigDecimal itemNetValue = new BigDecimal(record.get(11)
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
-            BigDecimal itemGrossValue = new BigDecimal(record.get(12)
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
+            BigDecimal itemNetValue = parsePrice(r.get(11));
+            BigDecimal itemGrossValue = parsePrice(r.get(12));
 
             var item = new Item(product, amount, price, taxRate, taxAmount, itemNetValue, itemGrossValue);
 
-            String invoiceNumber = record.get(5);
+            String invoiceNumber = r.get(5);
             if (!parsedInvoices.contains(invoiceNumber)) {
                 parsedInvoices.add(invoiceNumber);
 
-                String companyName = record.get(0);
-                String address = record.get(1);
-                String nip = record.get(2);
-                String date = record.get(3);
-                String sellDate = record.get(4);
+                String companyName = r.get(0);
+                String address = r.get(1);
+                String nip = r.get(2);
+                String date = r.get(3);
+                String sellDate = r.get(4);
 
-                BigDecimal netValue = new BigDecimal(record.get(13)
-                        .replace(" ", "")
-                        .replace("zł", "")
-                        .replace(",", "."));
-                BigDecimal grossValue = new BigDecimal(record.get(14)
-                        .replace(" ", "")
-                        .replace("zł", "")
-                        .replace(",", "."));
+                BigDecimal netValue = parsePrice(r.get(13));
+                BigDecimal grossValue = parsePrice(r.get(14));
 
                 Invoice invoice = new Invoice(companyName, address, nip, date, sellDate, invoiceNumber,
                         netValue, grossValue);

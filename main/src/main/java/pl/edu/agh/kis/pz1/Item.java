@@ -44,7 +44,7 @@ public class Item {
         this.taxAmount = taxAmount;
         this.totalNetPrice = itemNetValue;
         this.totalGrossPrice = itemGrossValue;
-        this.singleGrossPrice = price.multiply(BigDecimal.valueOf(taxRate + 100)).divide(BigDecimal.valueOf(100),
+        this.singleGrossPrice = price.multiply(BigDecimal.valueOf((long) taxRate + 100)).divide(BigDecimal.valueOf(100),
                 2, RoundingMode.HALF_EVEN);
     }
 }

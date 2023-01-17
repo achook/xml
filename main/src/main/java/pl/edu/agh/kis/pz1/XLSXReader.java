@@ -25,52 +25,36 @@ public class XLSXReader {
     public void read() throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(fileStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
-        Iterator<Row> records = sheet.iterator();
-        records.next();
+        var iter = sheet.rowIterator();
+        iter.next(); //pominięcie pierwszej linii
 
         ArrayList<String> parsedInvoices = new ArrayList<>();
 
-        for (Row record : sheet) {
-            String product = record.getCell(6).getStringCellValue();
-            var amount = new BigDecimal(record.getCell(7).getStringCellValue());
-            var price = new BigDecimal(record.getCell(8).getStringCellValue()
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
-            int taxRate = (int) record.getCell(9).getNumericCellValue();
-            var taxAmount = new BigDecimal(record.getCell(10).getStringCellValue()
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
-            var itemNetValue = new BigDecimal(record.getCell(11).getStringCellValue()
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
-            var itemGrossValue = new BigDecimal(record.getCell(12).getStringCellValue()
-                    .replace(" ", "")
-                    .replace("zł", "")
-                    .replace(",", "."));
+        while (iter.hasNext()) {
+            Row r = (Row) iter.next();
+
+            String product = r.getCell(6).getStringCellValue();
+            var amount = BigDecimal.valueOf(r.getCell(7).getNumericCellValue());
+            var price = BigDecimal.valueOf(r.getCell(8).getNumericCellValue());
+            int taxRate = (int) r.getCell(9).getNumericCellValue();
+            var taxAmount = BigDecimal.valueOf(r.getCell(10).getNumericCellValue());
+            var itemNetValue = BigDecimal.valueOf(r.getCell(11).getNumericCellValue());
+            var itemGrossValue = BigDecimal.valueOf(r.getCell(12).getNumericCellValue());
 
             var item = new Item(product, amount, price, taxRate, taxAmount, itemNetValue, itemGrossValue);
 
-            String invoiceNumber = record.getCell(5).getStringCellValue();
+            String invoiceNumber = r.getCell(5).getStringCellValue();
             if (!parsedInvoices.contains(invoiceNumber)) {
                 parsedInvoices.add(invoiceNumber);
 
-                String companyName = record.getCell(0).getStringCellValue();
-                String address = record.getCell(1).getStringCellValue();
-                String nip = record.getCell(2).getStringCellValue();
-                String date = record.getCell(3).getStringCellValue();
-                String sellDate = record.getCell(4).getStringCellValue();
+                String companyName = r.getCell(0).getStringCellValue();
+                String address = r.getCell(1).getStringCellValue();
+                String nip = r.getCell(2).getStringCellValue();
+                String date = r.getCell(3).getDateCellValue().toString();
+                String sellDate = r.getCell(4).getDateCellValue().toString();
 
-                var netValue = new BigDecimal(record.getCell(13).getStringCellValue()
-                        .replace(" ", "")
-                        .replace("zł", "")
-                        .replace(",", "."));
-                var grossValue = new BigDecimal(record.getCell(14).getStringCellValue()
-                        .replace(" ", "")
-                        .replace("zł", "")
-                        .replace(",", "."));
+                var netValue = BigDecimal.valueOf(r.getCell(13).getNumericCellValue());
+                var grossValue = BigDecimal.valueOf(r.getCell(14).getNumericCellValue());
 
                 var invoice = new Invoice(companyName, address, nip, date, sellDate, invoiceNumber,
                         netValue, grossValue);
@@ -87,5 +71,9 @@ public class XLSXReader {
                 }
             }
         }
+    }
+
+    public ArrayList<Invoice> getInvoices() {
+        return invoices;
     }
 }

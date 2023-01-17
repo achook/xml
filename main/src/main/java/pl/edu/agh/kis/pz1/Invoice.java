@@ -54,38 +54,38 @@ public class Invoice {
     public ArrayList<Item> items;
 
     @XmlElement(name = "tns:P_16")
-    static public String p16 = "false";
+    static public boolean p16 = false;
 
 
     @XmlElement(name = "tns:P_17")
-    static public String p17 = "false";
+    static public boolean p17 = false;
 
     @XmlElement(name = "tns:P_18")
-    static public String p18 = "false";
+    static public boolean p18 = false;
 
     @XmlElement(name = "tns:P_18A")
-    static public String p18a = "false";
+    static public boolean p18a = false;
 
     @XmlElement(name = "tns:P_19")
-    static public String p19 = "false";
+    static public boolean p19 = false;
 
     @XmlElement(name = "tns:P_20")
-    static public String p20 = "false";
+    static public boolean p20 = false;
 
     @XmlElement(name = "tns:P_21")
-    static public String p21 = "false";
+    static public boolean p21 = false;
 
     @XmlElement(name = "tns:P_22")
-    static public String p22 = "false";
+    static public boolean p22 = false;
 
     @XmlElement(name = "tns:P_23")
-    static public String p23 = "false";
+    static public boolean p23 = false;
 
     @XmlElement(name = "tns:P_106E_2")
-    static public String p106e2 = "false";
+    static public boolean p106e2 = false;
 
     @XmlElement(name = "tns:P_106E_3")
-    static public String p106e3 = "false";
+    static public boolean p106e3 = false;
 
     @XmlElement(name = "tns:RodzajFaktury")
     static public String invoiceType = "VAT";

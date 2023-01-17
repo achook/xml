@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Invoice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">main</a> &gt; <a href="index.source.html" class="el_package">pl.edu.agh.kis.pz1</a> &gt; <span class="el_source">Invoice.java</span></div><h1>Invoice.java</h1><pre class="source lang-java linenums">package pl.edu.agh.kis.pz1;
+
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+@XmlType(propOrder = {})
+public class Invoice {
+    @XmlElement(name = &quot;tns:KodWaluty&quot;)
+<span class="fc" id="L13">    static public String currencyCode = &quot;PLN&quot;;</span>
+
+    @XmlElement(name = &quot;tns:P_1&quot;)
+    public String invoiceDate;
+
+    @XmlElement(name = &quot;tns:P_2A&quot;)
+    public String number;
+
+    @XmlElement(name = &quot;tns:P_3A&quot;)
+    public String companyName;
+    @XmlElement(name = &quot;tns:P_3B&quot;)
+    public String customerName;
+    @XmlElement(name = &quot;tns:P_3C&quot;)
+    public String sellerName;
+    @XmlElement(name = &quot;tns:P_3D&quot;)
+    public String sellerAddress;
+    @XmlElement(name = &quot;tns:P_4A&quot;)
+    public String sellerCountryCode;
+    @XmlElement(name = &quot;tns:P_4B&quot;)
+    public String sellerNIP;
+
+
+    @XmlElement(name = &quot;tns:P_5B&quot;)
+    public String companyNIP;
+
+
+    @XmlElement(name = &quot;tns:P_6&quot;)
+    public String sellDate;
+
+    @XmlElement(name = &quot;tns:P_13_1&quot;)
+    public BigDecimal totalNetPrice;
+
+    @XmlElement(name = &quot;tns:P_14_1&quot;)
+    public BigDecimal totalTaxAmount;
+
+    @XmlElement(name = &quot;tns:P_15&quot;)
+    public BigDecimal totalGrossPrice;
+
+    @XmlTransient
+    public String companyAddress;
+    @XmlTransient
+    public ArrayList&lt;Item&gt; items;
+
+    @XmlElement(name = &quot;tns:P_16&quot;)
+<span class="fc" id="L57">    static public boolean p16 = false;</span>
+
+
+    @XmlElement(name = &quot;tns:P_17&quot;)
+<span class="fc" id="L61">    static public boolean p17 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_18&quot;)
+<span class="fc" id="L64">    static public boolean p18 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_18A&quot;)
+<span class="fc" id="L67">    static public boolean p18a = false;</span>
+
+    @XmlElement(name = &quot;tns:P_19&quot;)
+<span class="fc" id="L70">    static public boolean p19 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_20&quot;)
+<span class="fc" id="L73">    static public boolean p20 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_21&quot;)
+<span class="fc" id="L76">    static public boolean p21 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_22&quot;)
+<span class="fc" id="L79">    static public boolean p22 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_23&quot;)
+<span class="fc" id="L82">    static public boolean p23 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_106E_2&quot;)
+<span class="fc" id="L85">    static public boolean p106e2 = false;</span>
+
+    @XmlElement(name = &quot;tns:P_106E_3&quot;)
+<span class="fc" id="L88">    static public boolean p106e3 = false;</span>
+
+    @XmlElement(name = &quot;tns:RodzajFaktury&quot;)
+<span class="fc" id="L91">    static public String invoiceType = &quot;VAT&quot;;</span>
+
+    public Invoice(String companyName, String address, String nip,
+                   String date, String sellDate, String invoiceNumber,
+<span class="fc" id="L95">                   BigDecimal totalNetPrice, BigDecimal totalGrossPrice) {</span>
+<span class="fc" id="L96">        this.companyName = companyName;</span>
+<span class="fc" id="L97">        this.companyAddress = address;</span>
+<span class="fc" id="L98">        this.companyNIP = nip;</span>
+
+<span class="fc" id="L100">        this.invoiceDate = date;</span>
+<span class="fc" id="L101">        this.sellDate = sellDate;</span>
+
+<span class="fc" id="L103">        this.customerName = companyName + &quot; &quot; + address;</span>
+
+<span class="fc" id="L105">        this.number = invoiceNumber;</span>
+
+<span class="fc" id="L107">        this.totalNetPrice = totalNetPrice;</span>
+<span class="fc" id="L108">        this.totalGrossPrice = totalGrossPrice;</span>
+<span class="fc" id="L109">        this.totalTaxAmount = totalGrossPrice.subtract(totalNetPrice);</span>
+
+<span class="fc" id="L111">        this.items = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L113">        this.sellerName = &quot;Jan Kowalski&quot;;</span>
+<span class="fc" id="L114">        this.sellerAddress = &quot;ul. Kowalska 1, 00-000 Warszawa&quot;;</span>
+<span class="fc" id="L115">        this.sellerCountryCode = &quot;PL&quot;;</span>
+<span class="fc" id="L116">        this.sellerNIP = &quot;1234567890&quot;;</span>
+<span class="fc" id="L117">    }</span>
+
+    public void addItem (Item item) {
+<span class="fc" id="L120">        items.add(item);</span>
+<span class="fc" id="L121">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
